@@ -4,33 +4,9 @@ _scripts/check.sh
 # Set ulimit, need it for npm
 ulimit -S -n 2048 || echo "Setting ulimit failed"
 
-# Clone all the projects
-
-git clone https://github.com/mozilla/fxa-content-server.git &
-git clone https://github.com/mozilla/fxa-content-server-l10n.git &
-
-git clone https://github.com/mozilla/fxa-js-client.git &
-
-git clone https://github.com/mozilla/fxa-auth-server.git &
-git clone https://github.com/mozilla/fxa-auth-db-mysql.git &
-
-git clone https://github.com/mozilla/fxa-email-service.git &
-
-git clone https://github.com/mozilla/fxa-customs-server.git &
-
-git clone https://github.com/mozilla/browserid-verifier.git &
-
-git clone https://github.com/mozilla/fxa-oauth-console.git &
-
-git clone https://github.com/mozilla/fxa-profile-server.git &
-
-git clone https://github.com/mozilla/fxa-basket-proxy.git &
-
-git clone https://github.com/mozilla/123done.git -b oauth &
-
-wait
-
 # Install and Setup all the projects
+
+cd packages
 
 cd fxa-content-server; npm ci; cp server/config/local.json-dist server/config/local.json; cd ..
 
@@ -52,6 +28,8 @@ cd fxa-basket-proxy; npm ci; cd ..
 
 # 123done does not have an npm-shrinkwrap.json file and cannot use `npm ci`
 cd 123done; npm i; cd ..
+
+cd ..
 
 docker network create fxa-net || true
 
